@@ -1,0 +1,2 @@
+s/Windows/unix/g
+s/are/is/g

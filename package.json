@@ -1,0 +1,23 @@
+{
+  "name": "updatefile",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sedCommand.js",
+  "dependencies": {
+    "yargs": "^15.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrankRivas/UpdateFile.git"
+  },
+  "author": "frankRivas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FrankRivas/UpdateFile/issues"
+  },
+  "homepage": "https://github.com/FrankRivas/UpdateFile#readme"
+}
