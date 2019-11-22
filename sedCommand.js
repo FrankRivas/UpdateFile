@@ -1,7 +1,6 @@
 const fs = require('fs');
 
 function validRegex(regexLine, regexExpression){
-    console.log(regexLine)
     if(regexExpression.test(regexLine)){
         return true
     }else{
@@ -13,11 +12,17 @@ function validRegex(regexLine, regexExpression){
 function replaceWord(bl, ow, nw, f){
     let j = 0
     for(j;j<bl.length;j++){
-        if(f === "g"){
-            var change = new RegExp(ow,'g')
-            bl[j] = bl[j].replace(change, nw);
-        }else{
-            bl[j] = bl[j].replace(ow, nw);
+        if(bl[j].includes(ow)){
+            if(f === "g"){
+                var change = new RegExp(ow,'g')
+                bl[j] = bl[j].replace(change, nw);
+            }else{
+                bl[j] = bl[j].replace(ow, nw);
+            }
+            console.log(bl[j])
+        }
+        if(f === "p" && !argv.n){
+            console.log(bl[j])
         }
     }
     return bl
@@ -27,6 +32,7 @@ var txtFile = "";
 var re = new RegExp(/^s\/[A-Za-z]+\/[A-Za-z]+\/[g|p]?$/)
 var originalWord = ""
 var newWord = ""
+var lineSub = []
 var argv = require('yargs')
     .boolean('n')
     .nargs('f', 1)
@@ -34,8 +40,6 @@ var argv = require('yargs')
     .nargs('e', 1)
     .describe('e', 'Multiple commands')
     .argv;
-
-console.log(argv)
 
 if(!(argv.f || argv.e)){
     txtFile = argv._[1]
@@ -54,7 +58,8 @@ try{
             if(validRegex(argv.e[j],re)){
                 originalWord = argv.e[j].split("/")[1]
                 newWord = argv.e[j].split("/")[2]
-                breakLines = replaceWord(breakLines, originalWord, newWord, argv.e[j].split("/")[3])
+                operationFlag = argv._[0].split("/")[3]
+                breakLines = replaceWord(breakLines, originalWord, newWord, operationFlag)
                 }
             else{
                 console.log(`Command in line ${j+1} is not valid`)
@@ -74,7 +79,8 @@ try{
             if(validRegex(command,re)){
                 originalWord = command.split("/")[1]
                 newWord = command.split("/")[2]
-                breakLines = replaceWord(breakLines, originalWord, newWord, command.split("/")[3])
+                operationFlag = command.split("/")[3]
+                breakLines = replaceWord(breakLines, originalWord, newWord, operationFlag)
                 }
             else{
                 console.log(`Command in line ${j+1} is not valid`)
@@ -99,15 +105,6 @@ try{
         fs.writeFileSync(txtFile, newContent, 'utf8', function (err) {
             if (err) return console.log(err);
         });
-    }else if (argv.n){
-        let j = 0
-        for(j;j<breakLines.length;j++){
-            console.log(breakLines[j])
-            console.log(originalWord)
-            if (breakLines[j].includes(originalWord)){
-                console.log(breakLines[j])
-            }
-        }
     }
 }catch{
     console.log("The file doesn't exist")
