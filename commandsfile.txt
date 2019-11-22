@@ -1,2 +1,2 @@
-s/Windows/unix/g
+s/unix/ubuntu/g
 s/are/is/g
